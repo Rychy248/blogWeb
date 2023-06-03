@@ -27,17 +27,25 @@ app.use(express.static(path.join(__dirname,"public")));
 
 
 // GLOBAL VARIABLES
-let posts = [];
+let posts = [{
+    title:"Day 1",
+    content:"Lacus vel facilisis volutpat est velit egestas dui id ornare. Semper auctor neque vitae tempus quam. Sit amet cursus sit amet dictum sit amet justo. Viverra tellus in hac habitasse. Imperdiet proin fermentum leo vel orci porta. Donec ultrices tincidunt arcu non sodales neque sodales ut. Mattis molestie a iaculis at erat pellentesque adipiscing. Magnis dis parturient montes nascetur ridiculus mus mauris vitae ultricies. Adipiscing elit ut aliquam purus sit amet luctus venenatis lectus. Ultrices vitae auctor eu augue ut lectus arcu bibendum at. Odio euismod lacinia at quis risus sed vulputate odio ut. Cursus mattis molestie a iaculis at erat pellentesque adipiscing.",
+  },{
+    title:"Day 2",
+    content:"Lacus vel facilisis volutpat est velit egestas dui id ornare. Semper auctor neque vitae tempus quam. Sit amet cursus sit amet dictum sit amet justo. Viverra tellus in hac habitasse. Imperdiet proin fermentum leo vel orci porta. Donec ultrices tincidunt arcu non sodales neque sodales ut. Mattis molestie a iaculis at erat pellentesque adipiscing. Magnis dis parturient montes nascetur ridiculus mus mauris vitae ultricies. Adipiscing elit ut aliquam purus sit amet luctus venenatis lectus. Ultrices vitae auctor eu augue ut lectus arcu bibendum at. Odio euismod lacinia at quis risus sed vulputate odio ut. Cursus mattis molestie a iaculis at erat pellentesque adipiscing.",
+  }];
 
 
 // IMPORT ROUNTING
 const { homeRout } = require("./routerHome");
+const { capitalizeWord, getMatch, truncatePosts } = require("./tools");
+
 app.use("/", homeRout);
 // app.get("/about",(req,res)=>{ res.render("about",{aboutContent:aboutContent}); });
 // app.get("/contact",(req,res)=>{ res.render("contact",{contactContent:contactContent}); });
   
-app.get("/",(req,res)=>{
-  res.render("home",{homeStartingContent:homeStartingContent, posts:posts});
+app.get("/",(req,res)=>{  
+  res.render("home",{homeStartingContent:homeStartingContent, posts:truncatePosts(posts)});
 });
 
 
@@ -48,16 +56,23 @@ app.get("/compose",(req,res)=>{
 
 app.post("/compose",(req,res)=>{
   posts.push({
-    title:req.body.title,
-      content:req.body.body,
+    title:capitalizeWord(req.body.title),
+    content:req.body.body,
     });
     
     res.redirect("/")
 });
   
 app.get("/posts/:postName",(req,res)=>{
-  console.log(req.params.postName);
-  res.send("Hello posts "+req.params.postName);
+  let match = getMatch(posts,capitalizeWord(req.params.postName));
+  
+  if (match.matchedFlag) {
+    res.render("post",{post:posts[match.index]})
+  } else {
+    console.log("Matched didn't found");
+    res.render("postNotFound",{postSearched:capitalizeWord(req.params.postName)});
+  };
+
 });
 
 app.listen(3000, function() {
