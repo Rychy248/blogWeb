@@ -8,6 +8,17 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
 
+// general config
+const
+    dbSettings = {
+        dbName :"blogDB",
+        dbPort :"27017"
+    },
+    appSettings = {
+        port:3000
+    }
+;
+
 // create app
 const app = express();
 
@@ -19,4 +30,5 @@ app.set("views",path.join(__dirname,"views"));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname,"public")));
 
-module.exports = { express, app}
+app.set("port",3000)
+module.exports = { express, app, dbSettings, appSettings}
