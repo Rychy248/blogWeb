@@ -65,9 +65,7 @@ function truncatePost(post){
 function truncatePosts(posts){
     let postsToRender = [];
 
-    posts.forEach((post)=>{
-        postsToRender.push(truncatePost(post));
-    });
+    posts.forEach( post => postsToRender.push(truncatePost(post)) );
 
     return postsToRender
 };

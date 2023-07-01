@@ -1,28 +1,23 @@
 
+// models import
+const { postRead } = require("../models/postModel");
+// utils import
+const { capitalizeWord } = require("../tools");
 
-function routerFunction(express,capitalizeWord) {
-    const composeRouter = express.Router();
-
-    // Here can add a midleware
-    composeRouter.use(function(req,res,next){
-        next();
-    });
-
-    // HTTP VERBS
-    composeRouter.get("/",(req,res)=>{
-        console.log(req.params.postId)
-        res.render("compose");
-    });
-
-    composeRouter.post("/",(req,res)=>{
-        posts.push({
-            title:capitalizeWord(req.body.title),
-            content:req.body.body,
-        });
-        res.redirect("/")
-    });
-
-    return composeRouter;
+function get(req,res) {
+    res.render("compose");
 };
 
-module.exports = routerFunction;
+function post(req,res,next) {
+    let posts = postRead();
+
+    posts.push({
+        title:capitalizeWord(req.body.title),
+        content:req.body.body,
+    });
+
+    console.log(posts);
+    res.redirect("/");
+};
+
+module.exports = {get, post};

@@ -1,26 +1,20 @@
 
-
-function routerFunction(express,capitalizeWord) {
+function routerFunction(express) {
+    
+    // router define
     const composeRouter = express.Router();
 
+    // Controller functions
+    const {get, post} = require("./../controllers/composeController")
+    
     // Here can add a midleware
     composeRouter.use(function(req,res,next){
         next();
     });
 
     // HTTP VERBS
-    composeRouter.get("/",(req,res)=>{
-        console.log(req.params.postId)
-        res.render("compose");
-    });
-
-    composeRouter.post("/",(req,res)=>{
-        posts.push({
-            title:capitalizeWord(req.body.title),
-            content:req.body.body,
-        });
-        res.redirect("/")
-    });
+    composeRouter.get("/",get);
+    composeRouter.post("/",post);
 
     return composeRouter;
 };

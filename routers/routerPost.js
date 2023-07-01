@@ -1,23 +1,19 @@
 
-function routerFunction(express, capitalizeWord, getMatch,posts) {
+
+function routerFunction(express) {
     // creating the router
     const postRouter = express.Router();
+
+    // controller import
+    const { postGet } = require("../controllers/postController");    
 
     // Espace to add a midleware
     postRouter.use(function(req,res,next){
         next();
     });
     
-    postRouter.get("/:postName",(req,res)=>{
-        let match = getMatch(posts,capitalizeWord(req.params.postName));
-        
-        if (match.matchedFlag) {
-            res.render("post",{post:posts[match.index]})
-        } else {
-            console.log("Matched didn't found");
-            res.render("postNotFound",{postSearched:capitalizeWord(req.params.postName)});
-        };
-    });
+    // HTTP VERBS
+    postRouter.get("/:postName",postGet);
 
     return postRouter;
 };
