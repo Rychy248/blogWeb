@@ -1,15 +1,17 @@
-
-
-function postRead(){
-    return [
-        {
-            title:"Day 1",
-            content:"Lacus vel facilisis volutpat est velit egestas dui id ornare. Semper auctor neque vitae tempus quam. Sit amet cursus sit amet dictum sit amet justo. Viverra tellus in hac habitasse. Imperdiet proin fermentum leo vel orci porta. Donec ultrices tincidunt arcu non sodales neque sodales ut. Mattis molestie a iaculis at erat pellentesque adipiscing. Magnis dis parturient montes nascetur ridiculus mus mauris vitae ultricies. Adipiscing elit ut aliquam purus sit amet luctus venenatis lectus. Ultrices vitae auctor eu augue ut lectus arcu bibendum at. Odio euismod lacinia at quis risus sed vulputate odio ut. Cursus mattis molestie a iaculis at erat pellentesque adipiscing.",
-        },{
-            title:"Day 2",
-            content:"Lacus vel facilisis volutpat est velit egestas dui id ornare. Semper auctor neque vitae tempus quam. Sit amet cursus sit amet dictum sit amet justo. Viverra tellus in hac habitasse. Imperdiet proin fermentum leo vel orci porta. Donec ultrices tincidunt arcu non sodales neque sodales ut. Mattis molestie a iaculis at erat pellentesque adipiscing. Magnis dis parturient montes nascetur ridiculus mus mauris vitae ultricies. Adipiscing elit ut aliquam purus sit amet luctus venenatis lectus. Ultrices vitae auctor eu augue ut lectus arcu bibendum at. Odio euismod lacinia at quis risus sed vulputate odio ut. Cursus mattis molestie a iaculis at erat pellentesque adipiscing.",
-        }
-    ];
+// importing models and mongoose controller functions
+const { postModel } = require("./mongoose/models");
+const { create, read, del } = require("./mongoose/mongoController");
+/**
+ * 
+ * @param { {title:"title",content:"content"} } document document to save
+ * @returns 
+ */
+async function postCreate(document){
+    return await create(postModel,document);
 };
 
-module.exports = { postRead }
+async function postRead(){
+    return await read(postModel,{});
+};
+
+module.exports = { postRead, postCreate }

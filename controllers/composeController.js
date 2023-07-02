@@ -1,6 +1,7 @@
 
 // models import
-const { postRead } = require("../models/postModel");
+const { postCreate }= require("../models/postModel")
+
 // utils import
 const { capitalizeWord } = require("../tools");
 
@@ -9,14 +10,13 @@ function get(req,res) {
 };
 
 function post(req,res,next) {
-    let posts = postRead();
-
-    posts.push({
+    postCreate({
         title:capitalizeWord(req.body.title),
         content:req.body.body,
+    }).then((result)=>{
+        console.log(result);
     });
 
-    console.log(posts);
     res.redirect("/");
 };
 

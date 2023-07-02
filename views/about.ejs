@@ -2,6 +2,6 @@
 <%- include("partials/header.ejs") %>
 
     <h1>About</h1>
-    <p> <%= aboutContent %></p>
+    <p id="<%= aboutContent._id %>" section="<%= aboutContent.section %>"> <%= aboutContent.content %></p>
 
 <%- include("partials/footer.ejs") %>

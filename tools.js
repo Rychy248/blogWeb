@@ -46,26 +46,30 @@ function getMatch(posts,title){
  * @param {Number} index
  * @return {object} An object formed with two keys: title, content
  */
-function truncatePost(post){
-    return {
-        title : post.title,
-        content : (post.content.length > 100) ? post.content.slice(0,100-1) : 
-            (post.content.length > 50) ? post.content.slice(0,50-1) :
-            (post.content.length > 30) ? post.content.slice(0,30-1) :
-            (post.content.length > 20) ? post.content.slice(0,20-1) :
-            (post.content.length > 10) ? post.content.slice(0,10-1) :
-            post.content,
-    };
+function truncateContent(content){
+    return  (content.length > 100) ? content.slice(0,100-1) : 
+            (content.length > 50) ? content.slice(0,50-1) :
+            (content.length > 30) ? content.slice(0,30-1) :
+            (content.length > 20) ? content.slice(0,20-1) :
+            (content.length > 10) ? content.slice(0,10-1) :
+            content;
+    ;
 };
 
 /**
- * @param {Array} posts
- * @return {Array} An array formed with objects, with 3 keys: title, content, and index
+ * @param {[]} posts
+ * @return {[{_id:"_id",title:"title",content:"content"}]} An array formed with objects, with 3 keys: {_id:"id", title:"title", content:"content"}
  */
 function truncatePosts(posts){
     let postsToRender = [];
-
-    posts.forEach( post => postsToRender.push(truncatePost(post)) );
+    
+    posts.forEach((post)=>{
+        postsToRender.push({
+            _id:post._id,
+            title:post.title,
+            content:truncateContent(post.content)
+        });
+    });
 
     return postsToRender
 };

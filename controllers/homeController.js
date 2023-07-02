@@ -8,15 +8,34 @@ const { truncatePosts } = require("../tools");
 
 // HTTP METHODS, AND REPONSE
 function homeGet(req,res,next){  
-    res.render("home",{homeStartingContent:homeRead(), posts:truncatePosts(postRead())});
+    let homeContent = "";
+
+    homeRead()
+    .then((result)=>{
+        homeContent = result;
+        return postRead();
+    })
+    .then((posts)=>{
+        res.render("home",{homeContent:homeContent, posts:truncatePosts(posts)});
+    })
+    .catch(err=>{
+        console.log(err);
+    });
 };
 
-function aboutGet(req,res,next){
-    res.render("about",{aboutContent:aboutRead()});
+async function aboutGet(req,res,next){
+    res.render("about",{aboutContent:await aboutRead()});
 };
 
-function contactGet(req,res,next){  
-    res.render("contact",{contactContent:contactRead()});
+function contactGet(req,res,next){
+    contactRead()
+    .then((result)=>{
+        res.render("contact",{contactContent:result});
+    })
+    .catch((err)=>{
+        console.log("ERROR:");
+        console.log(err);
+    });
 };
 
 module.exports = { homeGet, aboutGet, contactGet };

@@ -1,12 +1,14 @@
 
 // --------------------- IMPORTING ---------------------
 // Local modules
-var path = require('path');
+const path = require('path');
 
 // Third part modules 
-const express = require("express");
-const bodyParser = require("body-parser");
-const ejs = require("ejs");
+const
+    express = require("express"),
+    bodyParser = require("body-parser"),
+    ejs = require("ejs")
+;
 
 // general config
 const
@@ -30,5 +32,4 @@ app.set("views",path.join(__dirname,"views"));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname,"public")));
 
-app.set("port",3000)
 module.exports = { express, app, dbSettings, appSettings}

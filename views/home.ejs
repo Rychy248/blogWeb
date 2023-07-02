@@ -2,12 +2,12 @@
 <%- include("partials/header.ejs") %>
 
     <h1>Home</h1>
-    <p> <%= homeStartingContent %></p>
+    <p id="<%= homeContent._id %>" section="<%= homeContent.section %>"> <%= homeContent.content %></p>
 
 
     <% posts.forEach((post,index) => {%>
         <h2> <%= post.title  %></h2>
-        <p> <%= post.content %>... <a href="posts/<%= post.title %>" index="<%= index %>">Read more.</a> </p>
+        <p> <%= post.content %>... <a href="posts/<%= post._id %>" >Read more.</a> </p>
         
     <% }); %>
 

@@ -5,8 +5,5 @@
 // Server and config
 const { express, app } = require("./config");
 
-app.use("/", require("./routers/routerHome")(express));
-app.use("/posts", require("./routers/routerPost")(express));
-app.use("/compose", require("./routers/routerCompose")(express));
-
+require("./routers/urls")(app, express);
 require("./db")(app);
