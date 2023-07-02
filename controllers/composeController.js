@@ -13,11 +13,12 @@ function post(req,res,next) {
     postCreate({
         title:capitalizeWord(req.body.title),
         content:req.body.body,
-    }).then((result)=>{
-        console.log(result);
+    })
+    .then((result)=>{
+        console.log(result._id);
+        res.redirect("/");
     });
 
-    res.redirect("/");
 };
 
 module.exports = {get, post};

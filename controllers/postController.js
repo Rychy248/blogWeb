@@ -1,19 +1,37 @@
 // models import
-const { postRead }= require("../models/postModel")
+const { postRead, postUpdate, postDelete }= require("../models/postModel")
 
 // utils
-const { capitalizeWord, getMatch} = require("../tools");
+const { capitalizeWord } = require("../tools");
 
-function postGet(req,res){
-    let match = getMatch(postRead(),capitalizeWord(req.params.postName));
+async function postGet(req,res){
+    let match = await postRead({_id:req.params.postId})
+    // let matchd = getMatch(postRead(),capitalizeWord(req.params.postId));
         
-    if (match.matchedFlag) {
-        res.render("post",{post:postRead()[match.index]})
+    if (match.length > 0) {
+        res.render("post",{post:match[0]})
     } else {
         console.log("Matched didn't found");
-        res.render("postNotFound",{postSearched:capitalizeWord(req.params.postName)});
+        res.render("postNotFound",{postSearched:capitalizeWord(req.params.postId)});
     };
 };
 
+function postPut(req,res){
+    let filter = {_id:req.body.id}
+        update = {title:req.body.title,content:req.body.body}
+    ;
+    postUpdate(filter,update)
+    .then(result=>res.json({result:result}))
+    .catch((err)=>{
+        res.json({
+            postSearched:capitalizeWord(`ID: ${filter._id}, Title: ${update.title}`)
+        });
+    });
+};
 
-module.exports = { postGet };
+async function postDel(req,res){
+    res.json({result:await postDelete({_id:req.body.id})});
+};
+
+
+module.exports = { postGet, postPut, postDel };
